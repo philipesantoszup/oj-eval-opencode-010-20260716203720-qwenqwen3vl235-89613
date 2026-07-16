@@ -314,13 +314,13 @@ public:
      * throw if the iterator is invalid
      */
     virtual iterator insert(iterator pos, const T &value) {
-        if (!pos.ptr && !head && !tail) {
+        if (empty() && pos.ptr == nullptr) {
             node *newNode = new node(value);
             head = tail = newNode;
             listSize++;
             return iterator(newNode);
         }
-        if (!pos.ptr) {
+        if (pos.ptr == nullptr) {
             node *newNode = new node(value);
             tail->next = newNode;
             newNode->prev = tail;
@@ -362,14 +362,13 @@ public:
     void push_back(const T &value) {
         if (empty()) {
             head = tail = new node(value);
-            listSize++;
         } else {
             node *newNode = new node(value);
             tail->next = newNode;
             newNode->prev = tail;
             tail = newNode;
-            listSize++;
         }
+        listSize++;
     }
     /**
      * removes the last element
@@ -380,14 +379,13 @@ public:
         if (head == tail) {
             delete head;
             head = tail = nullptr;
-            listSize--;
         } else {
             node *tmp = tail;
             tail = tail->prev;
             tail->next = nullptr;
             delete tmp;
-            listSize--;
         }
+        listSize--;
     }
     /**
      * inserts an element to the beginning.
@@ -395,14 +393,13 @@ public:
     void push_front(const T &value) {
         if (empty()) {
             head = tail = new node(value);
-            listSize++;
         } else {
             node *newNode = new node(value);
             newNode->next = head;
             head->prev = newNode;
             head = newNode;
-            listSize++;
         }
+        listSize++;
     }
     /**
      * removes the first element.
@@ -413,14 +410,13 @@ public:
         if (head == tail) {
             delete head;
             head = tail = nullptr;
-            listSize--;
         } else {
             node *tmp = head;
             head = head->next;
             head->prev = nullptr;
             delete tmp;
-            listSize--;
         }
+        listSize--;
     }
     /**
      * sort the values in ascending order with operator< of T
